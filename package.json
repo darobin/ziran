@@ -6,7 +6,11 @@
   "author": "Robin Berjon <robin@berjon.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "watch": "npm run tauri dev",
+    "dev": "npm run tauri dev",
+    "watch": "concurrently --handle-input npm:watch-css npm:watch-js npm:dev",
+    "watch-js": "./build.js --watch",
+    "build-js": "./build.js",
+    "watch-css": "NODE_ENV=production cssn --watch src/ziran.css src/ziran.min.css",
     "android": "npm run tauri android dev",
     "ios": "npm run tauri ios dev",
     "tauri": "tauri"
@@ -31,7 +35,15 @@
     "rules": {}
   },
   "devDependencies": {
+    "@shoelace-style/shoelace": "^2.20.1",
+    "@tauri-apps/api": "^2.7.0",
     "@tauri-apps/cli": "^2",
+    "concurrently": "^9.2.0",
+    "cssn": "^4.1.0",
+    "esbuild": "^0.25.8",
     "eslint": "^8.26.0"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-window-state": "^2.4.0"
   }
 }

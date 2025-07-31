@@ -1,4 +1,7 @@
-const { invoke } = window.__TAURI__.core;
+
+import { core } from '@tauri-apps/api'
+
+const { invoke } = core;
 
 let greetInputEl;
 let greetMsgEl;
