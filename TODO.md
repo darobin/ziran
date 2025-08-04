@@ -16,3 +16,7 @@
 - [ ] Feed types can be installed and can require accounts of certain types.
 - [ ] Details view opens to the side of feed
 - [ ] Feed types can support the creation of various items
+
+## Feeds
+- [ ] Have Firefox as a source of feeds, listing tabs, history, etc.
+    Question of what is fleeting and what is permanent.

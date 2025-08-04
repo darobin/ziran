@@ -1,24 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tauri App</title>
     <link rel="stylesheet" href="/ziran.min.css">
     <script type="module" src="/index.min.js" defer></script>
   </head>
   <body>
-    <main class="container">
-      <h1>Welcome to Ziran</h1>
-
-      <p>Click on the Tauri logo to learn more about the framework</p>
-
-      <form class="row" id="greet-form">
-        <input id="greet-input" placeholder="Enter a name..." />
-        <button type="submit">Greet</button>
-      </form>
-      <p id="greet-msg"></p>
+    <header>
+      <z-workspace-picker></z-workspace-picker>
+      <h1>ziran</h1>
+      <z-settings-button></z-settings-button>
+    </header>
+    <main>
     </main>
   </body>
 </html>
