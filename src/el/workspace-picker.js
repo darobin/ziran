@@ -1,5 +1,6 @@
 
 import { LitElement, html, css } from "lit";
+import { openNewWorkspace } from '../store.js';
 
 customElements.define("z-workspace-picker", class extends LitElement {
   static styles = css`
@@ -11,9 +12,10 @@ customElements.define("z-workspace-picker", class extends LitElement {
     }
   `;
   handleSelect (evt) {
-    const selectedItem = evt.detail.item;
+    const selectedItem = evt.detail?.item?.value;
+    console.warn(`selected`, selectedItem);
     if (selectedItem === 'new') {
-      // XXX creation dialog
+      openNewWorkspace()
     }
     else {
       // XXX load and render

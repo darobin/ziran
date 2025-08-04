@@ -1,5 +1,6 @@
 
 import { LitElement, html, css } from "lit";
+import { openSettings } from '../store.js';
 
 customElements.define("z-settings-button", class extends LitElement {
   static styles = css`
@@ -11,11 +12,7 @@ customElements.define("z-settings-button", class extends LitElement {
       color: var(--darker-deep-sky-blue);
     }
   `;
-  handleClick () {
-    // XXX
-    // trigger some UI state function for the stores
-  }
   render () {
-    return html`<sl-icon-button name="gear" label="Settings" @click=${this.handleClick}></sl-icon-button>`;
+    return html`<sl-icon-button name="gear" label="Settings" @click=${openSettings}></sl-icon-button>`;
   }
 });

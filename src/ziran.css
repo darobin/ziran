@@ -47,6 +47,14 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+/* Customise the theme */
+:root,
+:host,
+.sl-theme-light {
+  --sl-font-sans: Mulish;
+  --sl-font-serif: Cormorant;
+  --sl-color-primary-600: var(--darker-deep-sky-blue);
+}
 
 html, body {
   margin: 0;
