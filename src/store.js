@@ -1,12 +1,16 @@
 
-import { map } from "nanostores";
+import { atom } from "nanostores";
+
+function makeBooleanState (def = false) {
+  const $state = atom(def);
+  const turnOn = () => $state.set(true);
+  const turnOff = (evt) => {
+    if (evt) evt.preventDefault(); //
+    $state.set(false);
+  }
+  return [$state, turnOn, turnOff];
+}
 
 // UI
-export const $ui = map({
-  settings: false,
-  newWorkspace: false,
-});
-export function openSettings () { $ui.setKey('settings', true); }
-export function closeSettings () { $ui.setKey('settings', false); }
-export function openNewWorkspace () { $ui.setKey('newWorkspace', true); }
-export function closeNewWorkspace () { $ui.setKey('newWorkspace', false); }
+export const [$settingsDialog, openSettings, closeSettings] = makeBooleanState();
+export const [$newWorkspaceDialog, openNewWorkspace, closeNewWorkspace] = makeBooleanState();

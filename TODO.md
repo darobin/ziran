@@ -2,13 +2,12 @@
 
 ## Test project
 
-- [ ] top bar
 - [ ] workspace picker
 - [ ] workspace creator
 - [ ] Pick storage. Groundmist maybe?
-- [ ] Make nice stores tree (are there other libs that work well with lit and are better?)
-- [ ] List of workspaces
-- [ ] Each contains feeds
+- [ ] Make nice stores tree
+- [ ] Workspace sidebar (icon in theme colours — edit, add feed, AI)
+- [ ] Each workspace contains feeds
 - [ ] Feeds contain items and have multiple representations (this depends on feed type)
 - [ ] Items can be ephemeral or they can be tiles
 - [ ] Use Tapestry like thing and convert to tiles as needed.
