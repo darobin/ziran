@@ -1,8 +1,11 @@
 
-import { LitElement, html, css } from "lit";
-import { openNewWorkspace } from '../store.js';
+import { LitElement, html, css, nothing } from "lit";
+import { StoreController } from "@nanostores/lit";
+import { openNewWorkspace, $workspaces, $currentWorkspace, setCurrentWorkspace } from '../store.js';
 
 customElements.define("z-workspace-picker", class extends LitElement {
+  #workspaces = new StoreController(this, $workspaces);
+  #currentWorkspace = new StoreController(this, $currentWorkspace);
   static styles = css`
     :host {
       display: block;
@@ -14,27 +17,29 @@ customElements.define("z-workspace-picker", class extends LitElement {
   handleSelect (evt) {
     const selectedItem = evt.detail?.item?.value;
     console.warn(`selected`, selectedItem);
-    if (selectedItem === 'new') {
-      openNewWorkspace()
-    }
-    else if (selectedItem === 'inbox') {
-      // openNewWorkspace()
-    }
-    else {
-      // XXX load and render
-    }
+    if (selectedItem === 'new') openNewWorkspace();
+    else setCurrentWorkspace(selectedItem);
   }
   render () {
-    // XXX
-    // - need to have a list of workspaces to list here
-    return html`<sl-dropdown @sl-select=${this.handleSelect}>
-      <sl-button slot="trigger" caret>Current Workspace</sl-button>
+    const cur = this.#currentWorkspace.value;
+    const curID = cur?.$id || 'new';
+    const ws = Object.entries(this.#workspaces.value || {});
+    let wsList = ws.length
+      ? html`<sl-menu-item disabled>No workspaces.</sl-menu-item>`
+      : ws.map(([id, { name }]) => html`<sl-menu-item value=${id}>${name}</sl-menu-item>`)
+    ;
+    return html`<sl-dropdown @sl-select=${this.handleSelect} value=${curID}>
+      <sl-button slot="trigger" caret>
+        ${cur?.icon ? html`<sl-icon slot="prefix" name=${cur.icon}></sl-icon>` : nothing}
+        ${cur.name || `Current Workspace`}
+      </sl-button>
       <sl-menu>
         <sl-menu-item value="inbox">
           Inbox
           <sl-icon slot="prefix" name="inbox"></sl-icon>
         </sl-menu-item>
         <sl-divider></sl-divider>
+        ${wsList}
         <sl-divider></sl-divider>
         <sl-menu-item value="new">
           New Workspace
