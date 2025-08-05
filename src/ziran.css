@@ -86,5 +86,7 @@ header > h1 {
   border-right: 1px dotted var(--darker-deep-sky-blue);
 }
 main {
+  display: flex;
   flex-grow: 1;
+  overflow-x: auto;
 }

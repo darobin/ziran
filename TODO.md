@@ -2,10 +2,7 @@
 
 ## Test project
 
-- [ ] workspace picker
 - [ ] workspace creator
-- [ ] Pick storage. Groundmist maybe?
-- [ ] Make nice stores tree
 - [ ] Workspace sidebar (icon in theme colours — edit, add feed, AI)
 - [ ] Each workspace contains feeds
 - [ ] Feeds contain items and have multiple representations (this depends on feed type)
