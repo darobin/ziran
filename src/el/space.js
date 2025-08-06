@@ -1,10 +1,10 @@
 
 import { LitElement, html, css, nothing } from "lit";
 import { StoreController } from "@nanostores/lit";
-// import { $currentWorkspace } from '../store.js';
+// import { $currenSpace } from '../store.js';
 
-customElements.define("z-workspace", class extends LitElement {
-  // #currentWorkspace = new StoreController(this, $currentWorkspace);
+customElements.define("z-space", class extends LitElement {
+  // #currentSpace = new StoreController(this, $currentSpace);
   static styles = css`
     :host {
       display: block;
@@ -16,7 +16,7 @@ customElements.define("z-workspace", class extends LitElement {
   `;
   render () {
     return html`<div class="pan">
-      <z-workspace-tools></z-workspace-tools>
+      <z-space-tools></z-space-tools>
     </div>
 `;
   }

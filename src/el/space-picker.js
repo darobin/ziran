@@ -1,11 +1,11 @@
 
 import { LitElement, html, css, nothing } from "lit";
 import { StoreController } from "@nanostores/lit";
-import { openNewWorkspace, $workspaces, $currentWorkspace, setCurrentWorkspace } from '../store.js';
+import { openNewSpace, $spaces, $currentSpace, setCurrentSpace } from '../store.js';
 
-customElements.define("z-workspace-picker", class extends LitElement {
-  #workspaces = new StoreController(this, $workspaces);
-  #currentWorkspace = new StoreController(this, $currentWorkspace);
+customElements.define("z-space-picker", class extends LitElement {
+  #spaces = new StoreController(this, $spaces);
+  #currentSpace = new StoreController(this, $currentSpace);
   static styles = css`
     :host {
       display: block;
@@ -17,21 +17,21 @@ customElements.define("z-workspace-picker", class extends LitElement {
   handleSelect (evt) {
     const selectedItem = evt.detail?.item?.value;
     console.warn(`selected`, selectedItem);
-    if (selectedItem === 'new') openNewWorkspace();
-    else setCurrentWorkspace(selectedItem);
+    if (selectedItem === 'new') openNewSpace();
+    else setCurrentSpace(selectedItem);
   }
   render () {
-    const cur = this.#currentWorkspace.value;
+    const cur = this.#currentSpace.value;
     const curID = cur?.$id || 'new';
-    const ws = Object.entries(this.#workspaces.value || {});
+    const ws = Object.entries(this.#spaces.value || {});
     let wsList = ws.length
-      ? html`<sl-menu-item disabled>No workspaces.</sl-menu-item>`
+      ? html`<sl-menu-item disabled>No spaces.</sl-menu-item>`
       : ws.map(([id, { name }]) => html`<sl-menu-item value=${id}>${name}</sl-menu-item>`)
     ;
     return html`<sl-dropdown @sl-select=${this.handleSelect} value=${curID}>
       <sl-button slot="trigger" caret>
         ${cur?.icon ? html`<sl-icon slot="prefix" name=${cur.icon}></sl-icon>` : nothing}
-        ${cur.name || `Current Workspace`}
+        ${cur.name || `Current Space`}
       </sl-button>
       <sl-menu>
         <sl-menu-item value="inbox">
@@ -42,7 +42,7 @@ customElements.define("z-workspace-picker", class extends LitElement {
         ${wsList}
         <sl-divider></sl-divider>
         <sl-menu-item value="new">
-          New Workspace
+          New Space
           <sl-icon slot="prefix" name="plus-square"></sl-icon>
         </sl-menu-item>
       </sl-menu>

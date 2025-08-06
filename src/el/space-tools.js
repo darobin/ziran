@@ -1,12 +1,12 @@
 
 import { LitElement, html, css } from "lit";
 import { StoreController } from "@nanostores/lit";
-import { $currentWorkspace, openAddFeed } from '../store.js';
+import { $currentSpace, openAddFeed } from '../store.js';
 
-function editWorkspace () {}
+function editSpace () {}
 
-customElements.define("z-workspace-tools", class extends LitElement {
-  #currentWorkspace = new StoreController(this, $currentWorkspace);
+customElements.define("z-space-tools", class extends LitElement {
+  #currentSpace = new StoreController(this, $currentSpace);
   static styles = css`
     :host {
       display: block;
@@ -26,8 +26,8 @@ customElements.define("z-workspace-tools", class extends LitElement {
       <sl-tooltip content="Add feed" placement="right">
         <sl-icon-button name="file-plus" label="Add feed" @click=${openAddFeed}></sl-icon-button>
       </sl-tooltip>
-      <sl-tooltip content="Workspace settings" placement="right">
-        <sl-icon-button name="gear" label="Workspace settings" @click=${editWorkspace}></sl-icon-button>
+      <sl-tooltip content="Space settings" placement="right">
+        <sl-icon-button name="gear" label="Space settings" @click=${editSpace}></sl-icon-button>
       </sl-tooltip>
     </nav>
 `;

@@ -17,11 +17,11 @@ function makeBooleanState (def = false) {
 
 // UI
 export const [$settingsDialog, openSettings, closeSettings] = makeBooleanState();
-export const [$newWorkspaceDialog, openNewWorkspace, closeNewWorkspace] = makeBooleanState();
+export const [$newSpaceDialog, openNewSpace, closeNewSpace] = makeBooleanState();
 export const [$addFeedDialog, openAddFeed, closeAddFeed] = makeBooleanState();
 
-// Workspaces
-export const $workspaces = map({
+// Spaces
+export const $spaces = map({
   inbox: {
     $id: 'inbox',
     icon: 'inbox',
@@ -29,16 +29,16 @@ export const $workspaces = map({
     deletable: false,
   },
 });
-const workspacesTauriStore = await load(`workspaces.json`, loadOptions);
-(await workspacesTauriStore.entries()).forEach(([k, v]) => $workspaces.setKey(k, v));
-workspacesTauriStore.onChange((k, v) => $workspaces.setKey(k, v));
-export const $currentWorkspace = map($workspaces.get().inbox);
-export function setCurrentWorkspace (id) {
-  const workspaces = $workspaces.get();
-  if (workspaces[id]) $currentWorkspace.set(workspaces[id]);
+const spacesTauriStore = await load(`spaces.json`, loadOptions);
+(await spacesTauriStore.entries()).forEach(([k, v]) => $spaces.setKey(k, v));
+spacesTauriStore.onChange((k, v) => $spaces.setKey(k, v));
+export const $currentSpace = map($spaces.get().inbox);
+export function setCurrentSpace (id) {
+  const spaces = $spaces.get();
+  if (spaces[id]) $currentSpace.set(spaces[id]);
   else {
     // XXX need to report error here
-    $currentWorkspace.set(workspaces.inbox);
+    $currentSpace.set(spaces.inbox);
   }
 }
 
@@ -46,10 +46,11 @@ export function setCurrentWorkspace (id) {
 export const $feedTypes = map({});
 function registerFeedType (definition) {
   const ft = new FeedType(definition);
-  if ($feedTypes.get()[definition.name]) throw new Error(`Feed type ${definition.name} already registered.`);
-  $feedTypes.setKey(definition.name, ft);
+  if ($feedTypes.get()[definition.id]) throw new Error(`Feed type "${definition.name}" (${definition.id}) already registered.`);
+  $feedTypes.setKey(definition.id, ft);
 }
 registerFeedType({
+  id: 'space.ziran.rss',
   name: 'RSS/Atom',
   icon: '/img/rss.svg',
   configuration: [

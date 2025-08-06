@@ -3,15 +3,13 @@ import { LitElement, html, css, nothing } from "lit";
 import { StoreController } from "@nanostores/lit";
 import { $addFeedDialog, closeAddFeed, $feedTypes } from '../store.js';
 
-// XXX
-// - initially, just list feed types
-// - when a feedtype is selected
 customElements.define("z-add-feed-dialog", class extends LitElement {
   #open = new StoreController(this, $addFeedDialog);
   #feedTypes = new StoreController(this, $feedTypes);
   static properties = {
     type: { attribute: false, state: true },
   };
+  // XXX Make this a separate form thing
   static styles = css`
     sl-input, sl-textarea, sl-select, fieldset, .input-line {
       margin-bottom: 1rem;
@@ -23,7 +21,26 @@ customElements.define("z-add-feed-dialog", class extends LitElement {
       display: block;
       font-weight: bold;
     }
-  `;
+    sl-input[data-user-invalid]::part(base),
+    sl-select[data-user-invalid]::part(combobox),
+    sl-checkbox[data-user-invalid]::part(control) {
+      border-color: var(--sl-color-danger-600);
+    }
+    [data-user-invalid]::part(form-control-label),
+    [data-user-invalid]::part(form-control-help-text),
+    sl-checkbox[data-user-invalid]::part(label) {
+      color: var(--sl-color-danger-700);
+    }
+    sl-checkbox[data-user-invalid]::part(control) {
+      outline: none;
+    }
+    sl-input:focus-within[data-user-invalid]::part(base),
+    sl-select:focus-within[data-user-invalid]::part(combobox),
+    sl-checkbox:focus-within[data-user-invalid]::part(control) {
+      border-color: var(--sl-color-danger-600);
+      box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
+    }
+    `;
   handleAddFeed (evt) {
     if (evt) evt.preventDefault();
     const type = this.#feedTypes.value?.[this.type];
@@ -37,15 +54,17 @@ customElements.define("z-add-feed-dialog", class extends LitElement {
       if (!fld) return console.error(`No field for configuration "${c.name}".`);
       const value = fld.value;
       if (c.required && value == null) {
-        // XXX error
+        fld.setCustomValidity('This field is required.');
         errorCount++;
       }
       else if (value != null) {
-        if (!type.validate(value)) {
-          // XXX error
+        const error = type.findError(value);
+        if (error) {
+          fld.setCustomValidity(`This field is not valid: ${error}.`);
           errorCount++;
         }
         else {
+          fld.setCustomValidity('');
           result[c.name] = value
         }
       }
@@ -74,6 +93,7 @@ customElements.define("z-add-feed-dialog", class extends LitElement {
     });
   }
   render () {
+    console.warn(this.#feedTypes.value);
     return html`<sl-dialog label="Add Feed" .open=${this.#open.value} @sl-request-close=${closeAddFeed}>
       <form @submit=${this.handleAddFeed}>
         <sl-select
@@ -84,7 +104,10 @@ customElements.define("z-add-feed-dialog", class extends LitElement {
           required
           @sl-input=${this.handleSelectType}
           hoist
-        >${Object.values(this.#feedTypes.value || {}).map((ft) => html`<sl-option value=${ft.name}>${ft.name}</sl-option>`)}</sl-select>
+        >
+          <sl-option></sl-option>
+          ${Object.values(this.#feedTypes.value || {}).map((ft) => html`<sl-option value=${ft.id}>${ft.name}</sl-option>`)}
+        </sl-select>
         ${this.generateFeedConfiguration()}
       </form>
       <sl-button slot="footer" variant="primary" @click=${this.handleAddFeed}>Add</sl-button>
